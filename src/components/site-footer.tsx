@@ -34,7 +34,6 @@ export default function SiteFooter() {
               wisata, dan mudik dengan armada terawat dan harga terjangkau.
             </p>
           </div>
-
           <div>
             <h4 className="text-white font-semibold mb-4">Kontak Kami</h4>
             <div className="space-y-3">
