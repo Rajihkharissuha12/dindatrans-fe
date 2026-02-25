@@ -5,7 +5,6 @@ import { getCarAvailability } from "../lib/car-availability";
 
 export default async function CarGrid() {
   const availability = await getCarAvailability();
-  console.log(availability);
 
   return (
     <Section id="armada" className="py-16 md:py-24 bg-slate-950">

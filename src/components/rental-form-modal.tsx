@@ -569,10 +569,23 @@ export default function RentalFormModal({
         {/* Header sticky */}
         <div className="sticky top-0 z-10 bg-slate-900 border-b border-slate-800 px-5 pt-5 pb-4">
           <DialogHeader>
-            <DialogTitle className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-              <Car className="w-4 h-4 text-blue-400" />
-              Form Rental {car.name}
-            </DialogTitle>
+            <div className="flex items-center justify-between">
+              <DialogTitle className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                <Car className="w-4 h-4 text-blue-400" />
+                Form Rental {car.name}
+              </DialogTitle>
+
+              {/* 👇 Tombol X */}
+              <button
+                onClick={() => {
+                  onClose();
+                  resetForm();
+                }}
+                className="rounded-md p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </DialogHeader>
           {/* Summary harga */}
           <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -735,12 +748,23 @@ export default function RentalFormModal({
                   type="number"
                   value={form.rental_days}
                   onChange={(e) => {
+                    // 👇 Simpan apa adanya saat mengetik, jangan diforce
+                    const val = e.target.value;
                     setForm((f) => ({
                       ...f,
-                      rental_days: Math.max(1, +e.target.value),
+                      rental_days: val === "" ? ("" as any) : +val,
                     }));
                     if (errors.rental_days)
                       setErrors((er) => ({ ...er, rental_days: undefined }));
+                  }}
+                  onBlur={(e) => {
+                    // 👇 Baru divalidasi saat user selesai ketik (keluar dari input)
+                    const val = +e.target.value;
+                    setForm((f) => ({
+                      ...f,
+                      rental_days:
+                        isNaN(val) || val < 1 ? 1 : val > 30 ? 30 : val,
+                    }));
                   }}
                   min={1}
                   max={30}
