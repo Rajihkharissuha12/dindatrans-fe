@@ -1,15 +1,39 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Analytics from "@/components/Analytics";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Dinda Trans | Rental Mobil Jember",
+export const metadata = {
+  title: "Dinda Trans Jember - Rental Mobil Murah Jember",
   description:
-    "Rental mobil terpercaya di Jember. Armada lengkap, harga terjangkau, pelayanan profesional. Sewa mobil untuk harian, mingguan, wisata & mudik.",
+    "Sewa mobil murah di Jember. Avanza, Innova, APV dan lain-lain. Lepas kunci atau dengan driver. Hubungi WhatsApp 082332656326",
   keywords:
-    "rental mobil jember, sewa mobil jember, rental mobil murah, dinda trans",
+    "rental mobil jember, sewa mobil jember, dinda trans, mobil lepas kunci jember, rental mobil murah",
+
+  // Open Graph untuk social share
+  openGraph: {
+    title: "Dinda Trans Jember - Rental Mobil Murah",
+    description:
+      "Rental mobil terlengkap di Jember. Harga mulai Rp300.000/hari.",
+    url: "https://rentcarjember.com",
+    siteName: "Dinda Trans",
+    images: [
+      {
+        url: "https://res.cloudinary.com/dvuza2lpc/image/upload/v1772539670/512_mein5v.png", // 1200x630px
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "id_ID",
+    type: "website",
+  },
+
+  // Alternates untuk canonical
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({
@@ -19,7 +43,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className="dark scroll-smooth">
-      <body className={inter.className}>{children}</body>
+      <head>
+        {/* Google Search Console Verification */}
+        <meta
+          name="google-site-verification"
+          content="YOUR_VERIFICATION_CODE"
+        />
+      </head>
+      <body className={inter.className}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

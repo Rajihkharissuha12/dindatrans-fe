@@ -333,13 +333,12 @@ export default function RentalFormModal({
 
   // Tambah di atas fungsi handleFileChange
   const appendToOrdersSheet = async (): Promise<string> => {
-    const SCRIPT_URL = process.env.NEXT_PUBLIC_APPS_SCRIPT_URL!;
-    // Format: Google Apps Script Web App URL (lihat setup di bawah)
+    const SHEET_ID = process.env.NEXT_PUBLIC_SHEET_ID!;
 
     // Ambil ID terakhir dari sheet orders untuk auto-increment
     let nextId = "ORD-001";
     try {
-      const ORDERS_CSV_URL = `https://docs.google.com/spreadsheets/d/1XP4uqs4WYKJrZGVpwzPkHu94xHnx952YX75rcO_XdH4/gviz/tq?tqx=out:csv&sheet=orders&_t=${Date.now()}`;
+      const ORDERS_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=orders&_t=${Date.now()}`;
       const res = await fetch(ORDERS_CSV_URL, { cache: "no-store" });
       const text = await res.text();
       const rows = text

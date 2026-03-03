@@ -46,6 +46,15 @@ export default function SiteFooter() {
                 <Phone className="w-4 h-4 mt-0.5 flex-shrink-0" />
                 <span>+62823-3798-8088</span>
               </a>
+
+              <a
+                href="mailto:dindatrans@rentcarjember.com"
+                className="flex items-start gap-2 text-sm text-slate-400 hover:text-blue-400 transition-colors"
+              >
+                <Mail className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <span>dindatrans@rentcarjember.com</span>
+              </a>
+
               <a
                 href={"https://maps.app.goo.gl/tEMFK8dxawpmYyid9"}
                 target="_blank"
@@ -70,7 +79,6 @@ export default function SiteFooter() {
                   <p className="text-blue-400">08.00 - 20.00 WIB</p>
                 </div>
               </div>
-              <p className="text-xs text-slate-500">*WhatsApp 24/7</p>
             </div>
           </div>
 

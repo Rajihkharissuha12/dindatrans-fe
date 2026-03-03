@@ -298,7 +298,7 @@ export const cars: Car[] = [
     type: "MPV",
     pricePerDay: 350000,
     priceWithDriver: 900000,
-    transmission: "Manual",
+    transmission: "Matic",
     seats: 7,
     fuel: "Bensin",
     year: 2024,
@@ -514,22 +514,22 @@ export const faqs: FAQ[] = [
 ];
 
 export const promoSlides = [
-  {
-    id: "1",
-    title: "Promo Spesial Februari!",
-    description: "Diskon hingga 20% untuk rental mingguan",
-    image:
-      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=1200&h=500&fit=crop",
-    cta: "Booking Sekarang",
-  },
-  {
-    id: "2",
-    title: "Layanan Antar-Jemput Bandara",
-    description: "Gratis antar ke Bandara Blimbingsari atau Stasiun Jember",
-    image:
-      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200&h=500&fit=crop",
-    cta: "Info Selengkapnya",
-  },
+  // {
+  //   id: "1",
+  //   title: "Promo Spesial Februari!",
+  //   description: "Diskon hingga 20% untuk rental mingguan",
+  //   image:
+  //     "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=1200&h=500&fit=crop",
+  //   cta: "Booking Sekarang",
+  // },
+  // {
+  //   id: "2",
+  //   title: "Layanan Antar-Jemput Bandara",
+  //   description: "Gratis antar ke Bandara Blimbingsari atau Stasiun Jember",
+  //   image:
+  //     "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200&h=500&fit=crop",
+  //   cta: "Info Selengkapnya",
+  // },
   {
     id: "3",
     title: "Mobil Terbaru & Terawat",
@@ -538,14 +538,14 @@ export const promoSlides = [
       "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200&h=500&fit=crop",
     cta: "Lihat Armada",
   },
-  {
-    id: "4",
-    title: "Paket Wisata Keluarga",
-    description: "Sewa harian untuk keliling Jember & sekitarnya",
-    image:
-      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&h=500&fit=crop",
-    cta: "Chat Kami",
-  },
+  // {
+  //   id: "4",
+  //   title: "Paket Wisata Keluarga",
+  //   description: "Sewa harian untuk keliling Jember & sekitarnya",
+  //   image:
+  //     "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&h=500&fit=crop",
+  //   cta: "Chat Kami",
+  // },
   {
     id: "5",
     title: "Siap Temani Mudik Anda",
@@ -556,5 +556,5 @@ export const promoSlides = [
   },
 ];
 
-export const whatsappNumber = "6285162640614"; // Ganti dengan nomor WA asli
+export const whatsappNumber = "6282332656326"; // Ganti dengan nomor WA asli
 export const whatsappLink = `https://wa.me/${whatsappNumber}`;
