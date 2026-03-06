@@ -17,11 +17,11 @@ export async function POST(req: Request) {
     const SHEET_API_URL = process.env.APPS_SCRIPT_URL!;
 
     const sheetResponse = await fetch(SHEET_API_URL, {
+      method: "GET",
+      mode: "no-cors", // Bypass CORS, opaque response OK karena kita cuma baca JSON
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36", // Fake browser
-        Accept: "application/json",
-        Referer: "https://dindatrans-fe.vercel.app/", // Domain deploy kamu
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
       },
     });
     if (!sheetResponse.ok) {
