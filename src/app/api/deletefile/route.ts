@@ -16,7 +16,14 @@ export async function POST(req: Request) {
     // Ganti dengan URL web app doGet kamu yang return JSON seluruh orders
     const SHEET_API_URL = process.env.APPS_SCRIPT_URL!;
 
-    const sheetResponse = await fetch(SHEET_API_URL);
+    const sheetResponse = await fetch(SHEET_API_URL, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36", // Fake browser
+        Accept: "application/json",
+        Referer: "https://dindatrans-fe.vercel.app/", // Domain deploy kamu
+      },
+    });
     if (!sheetResponse.ok) {
       throw new Error("Failed to fetch sheet data");
     }
