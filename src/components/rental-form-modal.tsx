@@ -318,6 +318,10 @@ export default function RentalFormModal({
       newErrors.rental_start = "Tanggal mulai tidak boleh masa lalu";
     }
 
+    if (!form.pickup_time) {
+      newErrors.pickup_time = "Jam pengambilan wajib diisi";
+    }
+
     if (form.rental_days < 1 || form.rental_days > 30) {
       newErrors.rental_days = "Minimal 1 hari, maksimal 30 hari";
     }
@@ -499,8 +503,10 @@ export default function RentalFormModal({
         .join("\n");
 
       // ── Step 4: Buka WhatsApp ──
-      const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`;
-      window.open(waUrl, "_blank");
+      // const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`;
+      // window.open(waUrl, "_blank");
+      const waUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(msg)}`;
+      window.location.href = waUrl;
     } catch (err) {
       console.error("Submit error:", err);
     } finally {
@@ -664,9 +670,24 @@ export default function RentalFormModal({
                 <Instagram className="w-3.5 h-3.5 text-pink-400" /> Instagram
               </Label>
               <Input
-                value={form.instagram}
+                value={
+                  form.instagram.replace(
+                    /^https?:\/\/(www\.)?instagram\.com\//i,
+                    "",
+                  ) || ""
+                }
                 onChange={(e) => {
-                  setForm((f) => ({ ...f, instagram: e.target.value }));
+                  const username = e.target.value.trim();
+                  // ✅ Simpan sebagai URL lengkap, tampilkan hanya username
+                  const fullUrl = username
+                    ? `https://instagram.com/${username.replace(/^\//, "")}`
+                    : "";
+
+                  setForm((f) => ({
+                    ...f,
+                    instagram: fullUrl,
+                  }));
+
                   if (errors.instagram)
                     setErrors((er) => ({
                       ...er,
@@ -674,7 +695,7 @@ export default function RentalFormModal({
                       facebook: undefined,
                     }));
                 }}
-                placeholder="https://instagram.com/username"
+                placeholder="contoh: rizky_rentalcar"
                 className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 text-sm h-9"
               />
               {errors.instagram && (
@@ -688,9 +709,24 @@ export default function RentalFormModal({
                 <Facebook className="w-3.5 h-3.5 text-blue-400" /> Facebook
               </Label>
               <Input
-                value={form.facebook}
+                value={
+                  form.facebook.replace(
+                    /^https?:\/\/(www\.)?facebook\.com\//i,
+                    "",
+                  ) || ""
+                }
                 onChange={(e) => {
-                  setForm((f) => ({ ...f, facebook: e.target.value }));
+                  const username = e.target.value.trim();
+                  // ✅ Simpan sebagai URL lengkap, tampilkan hanya username
+                  const fullUrl = username
+                    ? `https://facebook.com/${username.replace(/^\//, "")}`
+                    : "";
+
+                  setForm((f) => ({
+                    ...f,
+                    facebook: fullUrl,
+                  }));
+
                   if (errors.facebook)
                     setErrors((er) => ({
                       ...er,
@@ -698,7 +734,7 @@ export default function RentalFormModal({
                       instagram: undefined,
                     }));
                 }}
-                placeholder="https://facebook.com/username"
+                placeholder="contoh: rizky.rentalcar"
                 className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 text-sm h-9"
               />
               {errors.facebook && (
@@ -707,14 +743,14 @@ export default function RentalFormModal({
             </div>
           </section>
 
-          {/* ── Tanggal Rental ── */}
           {/* ── Jadwal Rental ── */}
           <section className="space-y-3">
             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
               Jadwal Rental
             </p>
 
-            <div className="grid grid-cols-2 gap-3">
+            {/* ✅ Grid: 1 kolom di mobile kecil, 2 kolom di tablet+ */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {/* Tanggal Mulai */}
               <div className="space-y-1.5">
                 <Label className="text-slate-300 text-xs sm:text-sm flex items-center gap-1.5">
@@ -729,7 +765,11 @@ export default function RentalFormModal({
                       setErrors((er) => ({ ...er, rental_start: undefined }));
                   }}
                   min={new Date().toISOString().split("T")[0]}
-                  className="bg-slate-800 border-slate-700 text-white text-sm h-9"
+                  className="bg-slate-800 border-slate-700 text-white text-sm h-10 px-3
+          focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-transparent
+          [color-scheme:dark] [-webkit-appearance:none] appearance-none
+          [&::-webkit-calendar-picker-indicator]:bg-slate-700 [&::-webkit-calendar-picker-indicator]:p-0
+          leading-normal box-border w-full"
                 />
                 {errors.rental_start && (
                   <p className="text-[11px] text-red-400">
@@ -747,7 +787,6 @@ export default function RentalFormModal({
                   type="number"
                   value={form.rental_days}
                   onChange={(e) => {
-                    // 👇 Simpan apa adanya saat mengetik, jangan diforce
                     const val = e.target.value;
                     setForm((f) => ({
                       ...f,
@@ -757,7 +796,6 @@ export default function RentalFormModal({
                       setErrors((er) => ({ ...er, rental_days: undefined }));
                   }}
                   onBlur={(e) => {
-                    // 👇 Baru divalidasi saat user selesai ketik (keluar dari input)
                     const val = +e.target.value;
                     setForm((f) => ({
                       ...f,
@@ -767,7 +805,11 @@ export default function RentalFormModal({
                   }}
                   min={1}
                   max={30}
-                  className="bg-slate-800 border-slate-700 text-white text-sm h-9"
+                  className="bg-slate-800 border-slate-700 text-white text-sm h-10 px-3
+          focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-transparent
+          [-webkit-appearance:none] appearance-none [-moz-appearance:textfield]
+          [&::-webkit-outer-spin-button]:m-0 [&::-webkit-inner-spin-button]:m-0
+          leading-normal box-border w-full"
                 />
                 {errors.rental_days && (
                   <p className="text-[11px] text-red-400">
@@ -777,23 +819,24 @@ export default function RentalFormModal({
               </div>
             </div>
 
-            {/* 👇 Jam Pengambilan — full width di bawah */}
+            {/* Jam Pengambilan — full width */}
             <div className="space-y-1.5">
               <Label className="text-slate-300 text-xs sm:text-sm flex items-center gap-1.5">
                 🕐 Jam Pengambilan ke Garasi *
               </Label>
-              <div className="relative">
-                <Input
-                  type="time"
-                  value={form.pickup_time}
-                  onChange={(e) => {
-                    setForm((f) => ({ ...f, pickup_time: e.target.value }));
-                    if (errors.pickup_time)
-                      setErrors((er) => ({ ...er, pickup_time: undefined }));
-                  }}
-                  className="bg-slate-800 border-slate-700 text-white text-sm h-9 w-full"
-                />
-              </div>
+              <Input
+                type="time"
+                value={form.pickup_time}
+                onChange={(e) => {
+                  setForm((f) => ({ ...f, pickup_time: e.target.value }));
+                  if (errors.pickup_time)
+                    setErrors((er) => ({ ...er, pickup_time: undefined }));
+                }}
+                className="bg-slate-800 border-slate-700 text-white text-sm h-10 px-3 w-full
+        focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-transparent
+        [color-scheme:dark] [-webkit-appearance:none] appearance-none
+        leading-normal box-border"
+              />
               <p className="text-[10px] text-slate-500">
                 ⚠️ Mohon konfirmasi ke admin sebelum datang ke garasi
               </p>
