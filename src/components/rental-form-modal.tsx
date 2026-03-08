@@ -376,7 +376,7 @@ export default function RentalFormModal({
       car.id,
       car.name,
       car.year,
-      priceMode === "lepas-kunci" ? "Lepas Kunci" : "Dengan Driver",
+      form.sopir === "tidak" ? "Lepas Kunci" : "Dengan Driver",
       startDate.toLocaleDateString("id-ID"),
       endDate.toLocaleDateString("id-ID"),
       form.rental_days,
@@ -430,7 +430,7 @@ export default function RentalFormModal({
       endDate.setDate(endDate.getDate() + form.rental_days);
 
       const priceLabel =
-        priceMode === "lepas-kunci" ? "Lepas Kunci" : "Dengan Driver";
+        form.sopir === "tidak" ? "Lepas Kunci" : "Dengan Driver";
       const jaminanLabel =
         form.jaminan === "motor"
           ? "Motor Tahun 2018+ & STNK"
