@@ -8,7 +8,7 @@ import {
   Facebook,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { whatsappLink } from "@/lib/data";
+import { whatsappLink, whatsappNumber } from "@/lib/data";
 
 export default function SiteFooter() {
   return (
@@ -44,7 +44,7 @@ export default function SiteFooter() {
                 className="flex items-start gap-2 text-sm text-slate-400 hover:text-blue-400 transition-colors"
               >
                 <Phone className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span>+62823-3798-8088</span>
+                <span>{whatsappNumber}</span>
               </a>
 
               <a
