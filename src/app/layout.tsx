@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
 // import { ToastProvider } from "@/context/ToastContext";
-import Providers from "./providers";
+// import Providers from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -53,12 +53,12 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <Providers>
+        {/* <Providers> */}
           {/* <ToastProvider> */}
             {children}
             <Analytics />
           {/* </ToastProvider> */}
-        </Providers>
+        {/* </Providers> */}
       </body>
     </html>
   );
