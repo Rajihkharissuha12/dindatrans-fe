@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
+import { ToastProvider } from "@/context/ToastContext";
+import Providers from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -47,12 +49,16 @@ export default function RootLayout({
         {/* Google Search Console Verification */}
         <meta
           name="google-site-verification"
-          content="YOUR_VERIFICATION_CODE"
+          content="N_ojNU5oGWAi9Uhp-HOW0yidYea5cFjG-cX9n7P0luk"
         />
       </head>
       <body className={inter.className}>
-        {children}
-        <Analytics />
+        <Providers>
+          <ToastProvider>
+            {children}
+            <Analytics />
+          </ToastProvider>
+        </Providers>
       </body>
     </html>
   );
