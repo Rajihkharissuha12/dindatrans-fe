@@ -47,13 +47,13 @@ export default function SiteFooter() {
                 <span>{whatsappNumber}</span>
               </a>
 
-              <a
+              {/* <a
                 href="mailto:dindatrans@rentcarjember.com"
                 className="flex items-start gap-2 text-sm text-slate-400 hover:text-blue-400 transition-colors"
               >
                 <Mail className="w-4 h-4 mt-0.5 flex-shrink-0" />
                 <span>dindatrans@rentcarjember.com</span>
-              </a>
+              </a> */}
 
               <a
                 href={"https://maps.app.goo.gl/tEMFK8dxawpmYyid9"}
