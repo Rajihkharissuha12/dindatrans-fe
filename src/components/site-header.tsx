@@ -66,12 +66,12 @@ export default function SiteHeader() {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
-            <Button asChild variant="outline" size="sm">
+            {/* <Button asChild variant="outline" size="sm">
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
                 <Phone className="w-4 h-4 mr-2" />
                 Hubungi Kami
               </a>
-            </Button>
+            </Button> */}
           </div>
 
           <button
@@ -104,7 +104,7 @@ export default function SiteHeader() {
                   {item.label}
                 </a>
               ))}
-              <Button asChild className="w-full mt-2">
+              {/* <Button asChild className="w-full mt-2">
                 <a
                   href={whatsappLink}
                   target="_blank"
@@ -113,7 +113,7 @@ export default function SiteHeader() {
                   <Phone className="w-4 h-4 mr-2" />
                   Hubungi Kami
                 </a>
-              </Button>
+              </Button> */}
             </div>
           </motion.nav>
         )}

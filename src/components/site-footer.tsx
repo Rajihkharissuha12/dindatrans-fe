@@ -37,7 +37,7 @@ export default function SiteFooter() {
           <div>
             <h4 className="text-white font-semibold mb-4">Kontak Kami</h4>
             <div className="space-y-3">
-              <a
+              {/* <a
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -45,15 +45,15 @@ export default function SiteFooter() {
               >
                 <Phone className="w-4 h-4 mt-0.5 flex-shrink-0" />
                 <span>{whatsappNumber}</span>
-              </a>
+              </a> */}
 
-              {/* <a
-                href="mailto:dindatrans@rentcarjember.com"
+              <a
+                href="mailto:cvdindagroup@gmail.com"
                 className="flex items-start gap-2 text-sm text-slate-400 hover:text-blue-400 transition-colors"
               >
                 <Mail className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span>dindatrans@rentcarjember.com</span>
-              </a> */}
+                <span>cvdindagroup@gmail.com</span>
+              </a>
 
               <a
                 href={"https://maps.app.goo.gl/tEMFK8dxawpmYyid9"}

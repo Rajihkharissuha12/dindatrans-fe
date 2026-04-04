@@ -41,7 +41,7 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button
+              {/* <Button
                 asChild
                 size="lg"
                 className="text-base px-8 h-12 min-w-[200px]"
@@ -54,7 +54,7 @@ export default function Hero() {
                   <Phone className="w-5 h-5 mr-2" />
                   Chat WhatsApp
                 </a>
-              </Button>
+              </Button> */}
               <Button
                 asChild
                 size="lg"

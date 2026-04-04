@@ -1,6 +1,6 @@
 import Section from "./section";
 import { Button } from "@/components/ui/button";
-import { Phone } from "lucide-react";
+import { Car, Phone } from "lucide-react";
 import { whatsappLink } from "@/lib/data";
 
 export default function CTABanner() {
@@ -14,8 +14,7 @@ export default function CTABanner() {
               Siap Memulai Perjalanan Anda?
             </h2>
             <p className="text-lg text-blue-50 mb-8 max-w-2xl mx-auto">
-              Hubungi kami sekarang untuk booking mobil atau konsultasi gratis
-              tentang paket rental yang sesuai kebutuhan Anda.
+              Nikmati kemudahan memilih armada terbaik dan lakukan reservasi secara instan sesuai kebutuhan Anda.
             </p>
             <Button
               asChild
@@ -23,9 +22,9 @@ export default function CTABanner() {
               variant="secondary"
               className="text-base px-8 h-12"
             >
-              <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
-                <Phone className="w-5 h-5 mr-2" />
-                Chat WhatsApp Sekarang
+              <a href="http://localhost:3000/#armada">
+                <Car className="w-5 h-5 mr-2" />
+                Lihat Armada & Booking
               </a>
             </Button>
           </div>
