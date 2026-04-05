@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -29,6 +29,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@supabase/supabase-js";
 import { formatPrice } from "@/lib/utils";
 import { Car as CarType, whatsappNumber } from "@/lib/data";
+import { fetchAvailability } from "@/lib/data-booking";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
 
 // ── Supabase client ──────────────────────────────────────────────────────────
 const supabase = createClient(
@@ -230,6 +233,43 @@ export default function RentalFormModal({
     url: null,
     error: null,
   });
+  const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
+  const [unavailableDatesMap, setUnavailableDatesMap] = useState<Record<string, number[]>>({});
+
+  useEffect(() => {
+    if (open && car?.id) {
+      const monthKey = `${currentMonth.getFullYear()}-${currentMonth.getMonth()}`;
+      if (!unavailableDatesMap[monthKey]) {
+        fetchAvailability(car.id, currentMonth).then((days) => {
+          setUnavailableDatesMap((prev) => ({ ...prev, [monthKey]: days }));
+        });
+      }
+    }
+  }, [open, car?.id, currentMonth]);
+
+  useEffect(() => {
+    if (!open) {
+      setUnavailableDatesMap({});
+      setCurrentMonth(new Date());
+    }
+  }, [open]);
+
+  const isDateUnavailable = (date: Date) => {
+    const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
+    const days = unavailableDatesMap[monthKey] || [];
+    return days.includes(date.getDate());
+  };
+
+const isRangeAvailable = (start: Date, days: number) => {
+  if (isNaN(start.getTime())) return true;
+  for (let i = 0; i < days; i++) {
+    const d = new Date(start);
+    d.setDate(start.getDate() + i);
+
+    if (isDateUnavailable(d)) return false;
+  }
+  return true;
+};
 
   // ── Harga Sopir ─────────────────────────────────────────────────────────────
   const sopirAddon =
@@ -310,12 +350,14 @@ export default function RentalFormModal({
       if (!stnkState.url)
         setStnkState((s) => ({ ...s, error: "Foto STNK wajib diupload" }));
     }
-    if (!form.rental_start)
+    if (!form.rental_start) {
       newErrors.rental_start = "Tanggal mulai wajib diisi";
-    else if (
+    } else if (
       new Date(form.rental_start) < new Date(new Date().setHours(0, 0, 0, 0))
     ) {
       newErrors.rental_start = "Tanggal mulai tidak boleh masa lalu";
+    } else if (!isRangeAvailable(new Date(form.rental_start), form.rental_days || 1)) {
+      newErrors.rental_start = "Ada tanggal dalam range tersebut yang ter-booking";
     }
 
     if (!form.pickup_time) {
@@ -750,27 +792,62 @@ export default function RentalFormModal({
             </p>
 
             {/* ✅ Grid: 1 kolom di mobile kecil, 2 kolom di tablet+ */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 items-start">
               {/* Tanggal Mulai */}
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 flex flex-col w-full">
                 <Label className="text-slate-300 text-xs sm:text-sm flex items-center gap-1.5">
                   📅 Tanggal Mulai *
                 </Label>
-                <Input
-                  type="date"
-                  value={form.rental_start}
-                  onChange={(e) => {
-                    setForm((f) => ({ ...f, rental_start: e.target.value }));
-                    if (errors.rental_start)
-                      setErrors((er) => ({ ...er, rental_start: undefined }));
-                  }}
-                  min={new Date().toISOString().split("T")[0]}
-                  className="bg-slate-800 border-slate-700 text-white text-sm h-10 px-3
-          focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-transparent
-          [color-scheme:dark] [-webkit-appearance:none] appearance-none
-          [&::-webkit-calendar-picker-indicator]:bg-slate-700 [&::-webkit-calendar-picker-indicator]:p-0
-          leading-normal box-border w-full"
-                />
+                <div className="bg-slate-800 border border-slate-700 rounded-lg p-2 flex justify-center w-full overflow-x-auto">
+                  <style>{`
+                    .rdp-root {
+                      --rdp-accent-color: #3b82f6; 
+                      --rdp-background-color: transparent;
+                      --rdp-selected-color: #ffffff;
+                      --rdp-text-color: #f8fafc;
+                    }
+                    .rdp-root button:hover:not([disabled]) {
+                      background-color: #334155;
+                    }
+                    .rdp-day_selected, .rdp-day_selected:hover {
+                      background-color: var(--rdp-accent-color) !important;
+                      color: white !important;
+                    }
+                    .rdp-day_disabled {
+                      opacity: 0.3 !important;
+                    }
+                    .rdp-nav_button:hover {
+                      background-color: #334155 !important;
+                    }
+                  `}</style>
+                  <DayPicker
+                    mode="single"
+                    required
+                    selected={form.rental_start ? new Date(form.rental_start) : undefined}
+                    onMonthChange={setCurrentMonth}
+                    fromMonth={new Date(2026, 3)} // April (bulan mulai dari 0)
+                    toMonth={new Date(2026, 5)}   // Juni
+                    onSelect={(date) => {
+                      if (!date) return;
+                      // format date nicely using local timezone
+                      const year = date.getFullYear();
+                      const month = String(date.getMonth() + 1).padStart(2, "0");
+                      const day = String(date.getDate()).padStart(2, "0");
+                      
+                      setForm((f) => ({
+                        ...f,
+                        rental_start: `${year}-${month}-${day}`,
+                      }));
+                      if (errors.rental_start) setErrors((er) => ({ ...er, rental_start: undefined }));
+                    }}
+                    disabled={(date) => {
+                      const today = new Date();
+                      today.setHours(0, 0, 0, 0);
+                      return date < today || isDateUnavailable(date);
+                    }}
+                    className="m-0 text-sm"
+                  />
+                </div>
                 {errors.rental_start && (
                   <p className="text-[11px] text-red-400">
                     {errors.rental_start}
