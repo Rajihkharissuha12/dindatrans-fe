@@ -1073,7 +1073,10 @@ const isRangeAvailable = (start: Date, days: number) => {
                   sub: "Luar kota  +Rp 250.000/hari",
                   icon: "🛣️",
                 },
-              ].map(({ val, label, sub, icon }) => (
+              ].filter((opt) => {
+                if (Number(car.id) === 5 && opt.val === "tidak") return false;
+                return true;
+              }).map(({ val, label, sub, icon }) => (
                 <button
                   key={val}
                   type="button"
